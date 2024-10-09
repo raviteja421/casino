@@ -1,7 +1,8 @@
 pipeline {
-    agent {label 'dev'}
+    agent any
+
     tools {
-        maven 'maven'
+        maven "maven"
     }
 
     stages {
@@ -10,15 +11,14 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/vamsibyramala/casino.git'
             }
         }
-        stage('Build') {
+        stage('build') {
             steps {
                 sh 'mvn clean package'
-                sh 'mvn -v'
             }
         }
-        stage('Deploy') {
+        stage ('deploy') {
             steps {
-                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://3.109.55.133:8081/')], contextPath: 'app', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.233.145.22:8080/')], contextPath: 'newapp', war: '**/*.war'
             }
         }
     }
